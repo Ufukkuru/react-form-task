@@ -6,16 +6,25 @@ import axios from 'axios'
 
 function App() {
 
+  const api = 'https://json-server-in.vercel.app/api/posts'
+
   const [tasks, setTasks] = useState([])
 
+  const xeror = x => {
+    if(x.response.data.includes("Error: EROFS: read-only file system, open 'db.json'\n")){
+      return undefined
+    }else{
+      throw x
+    }
+  }
+
   const createTask = async (title,area) => {
-   const response = await axios.post('http://localhost:3000/tasks', {title,area})
-    const createdTask = [...tasks, response.data]
-    setTasks(createdTask)
+    await axios.post(api, {title,area}).catch(xeror)
+    await fetchTask()
   }
 
   const  fetchTask = async () => {
-    const response = await axios.get('http://localhost:3000/tasks')
+    const response = await axios.get(api)
     setTasks(response.data)
   }
 
@@ -24,7 +33,7 @@ function App() {
   },[])
 
   const deleteTaskById = async (id) => {
-    await axios.delete(`http://localhost:3000/tasks/${id}`)
+    await axios.delete(`${api}/${id}`).catch(xeror)
     const afterDeletingTasks =  tasks.filter((task)=>{
         return task.id !==id
     })
@@ -32,7 +41,7 @@ function App() {
   }
 
   const EditTaskById = async (id, updatedTitle, updatedArea) => {
-    await axios.put(`http://localhost:3000/tasks/${id}`, {title:updatedTitle, area:updatedArea})
+    await axios.put(`${api}/${id}`, {title:updatedTitle, area:updatedArea}).catch(xeror)
     const updatedTask = tasks.map((task)=>{
       if(task.id === id ){
         return {id, title:updatedTitle, area:updatedArea}
