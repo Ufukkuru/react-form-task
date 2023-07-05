@@ -1,6 +1,6 @@
 import TaskShow from "./TaskShow";
 
-function TaskList({tasks, onDelete , onUpdate}) {
+function TaskList({tasks, onDelete , onUpdate,}) {
     return ( 
         <>
             {tasks.map((task,index)=>{
