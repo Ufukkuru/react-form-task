@@ -1,13 +1,16 @@
 import TaskShow from "./TaskShow";
+import {useContext } from 'react'
+import TaskContext from '../context/TaskContext'
 
-function TaskList({tasks, onDelete , onUpdate,}) {
+function TaskList() {
+    const {tasks} = useContext(TaskContext)
     return ( 
         <>
             {tasks.map((task,index)=>{
                 return (
                     <div className="flex relative mt-10 mx-auto">
                         <div className="">
-                            <TaskShow onDelete={onDelete} key={index} task={task} onUpdate={onUpdate}/>
+                            <TaskShow key={index} task={task}/>
                         </div>
                     </div>
                 )

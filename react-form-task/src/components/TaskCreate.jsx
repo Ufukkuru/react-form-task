@@ -1,6 +1,10 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import TaskContext from '../context/TaskContext'
 
-function TaskCreate({onCreate, task , taskFromUpdate, onUpdate}) {
+function TaskCreate({task, taskFromUpdate ,onUpdate}) {
+
+    const { createTask } = useContext(TaskContext)
+
     const [title, setTitle] = useState(task ? task.title : '')
     const [area, setArea] = useState(task ? task.area : '')
 
@@ -19,7 +23,7 @@ function TaskCreate({onCreate, task , taskFromUpdate, onUpdate}) {
             onUpdate(task.id,title,area)
         }
         else{
-            onCreate(title,area)
+            createTask(title,area)
         }
         setTitle('')
         setArea('')
